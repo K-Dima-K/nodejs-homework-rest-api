@@ -10,9 +10,21 @@ const { authenticate, upload } = require('../../middlewares');
 
 const { schemas } = require('../../models/user');
 
+// signUp
+
 router.post('/register', validateBody(schemas.registerSchema), ctrl.register);
 
-router.post('/login', validateBody(schemas.loginSchema), ctrl.login);
+router.get('/verify/:verificationCode', ctrl.verify);
+
+router.post('/verify/', validateBody(schemas.emailSchema), ctrl.verify);
+
+// signIn
+
+router.post(
+  '/login',
+  validateBody(schemas.loginSchema),
+  ctrl.resendVerifyEmail
+);
 
 router.get('/current', authenticate, ctrl.getCurrent);
 
